@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "ostream": "cpp",
+        "cmath": "cpp",
+        "controller.h": "c",
+        "fixedpointscommon.h": "c",
+        "sfixedcommon.h": "c",
+        "fixedpoints.h": "c",
+        "framecontext.h": "c",
+        "matrixbuffer.h": "c",
+        "pxmatrix.h": "c",
+        "details.h": "c",
+        "esp32-hub75-matrixpanel-i2s-dma.h": "c",
+        "esp32_i2s_parallel_v2.h": "c",
+        "vector": "c",
+        "memory": "c"
+    }
+}
