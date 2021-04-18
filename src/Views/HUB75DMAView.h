@@ -13,6 +13,9 @@ public:
 
 private:
     MatrixPanel_I2S_DMA *display = nullptr;
+    int rperiod;
+    int gperiod;
+    int bperiod;
 };
 
 #endif

@@ -1,12 +1,12 @@
-#ifndef CELLULAR_CA_CONTROLLER_H
-#define CELLULAR_CA_CONTROLLER_H
+#ifndef WOLFRAM_CA_CONTROLLER_H
+#define WOLFRAM_CA_CONTROLLER_H
 
 #include "Controller.h"
 
-class CellularAutomataController : public Controller
+class WolframCaController : public Controller
 {
 public:
-    CellularAutomataController();
+    WolframCaController();
     FrameContext update(const FrameContext &frame);
     void enter(const FrameContext &frame);
 

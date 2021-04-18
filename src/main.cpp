@@ -6,9 +6,9 @@
 
 #include "Controllers\Controller.h"
 #include "Controllers\GameOfLifeController.h"
-#include "Controllers\CellularAutomataController.h"
-#include "Controllers\VehicleController.h"
+#include "Controllers\WolframCaController.h"
 #include "Controllers\SteeringController.h"
+#include "Controllers\SeekerController.h"
 
 #include "Views\View.h"
 #include "Views\HUB75DMAView.h"
@@ -20,9 +20,9 @@
 
 HUB75DMAView view;
 
-CellularAutomataController caController;
-VehicleController vehicleController;
+WolframCaController caController;
 SteeringController steeringController;
+SeekerController seekerController;
 GameOfLifeController golController(3, 12345);
 Ticker selectDebounceTicker;
 Ticker demoReelTicker;
@@ -32,16 +32,17 @@ FrameContext *currentFrameContext;
 matrixBuffer buffer;
 ptrMatrixBuffer matrix = buffer;
 
-#define MAX_CONTROLLERS 3
+#define MAX_CONTROLLERS 4
 Controller *controllers[MAX_CONTROLLERS] = {
     &caController,
-    // &vehicleController,
+    &seekerController,
     &golController,
     &steeringController};
 
 bool selectCheckPendning;
 bool selectPushPending;
 int currentController = 0;
+long frameCounter = 0;
 
 void render(const FrameContext &frame);
 void nextController();
@@ -55,20 +56,23 @@ void setup()
     pinMode(JOY_Y, INPUT);
     pinMode(SELECT_BUTTON, INPUT_PULLUP);
     demoReelTicker.attach(
-        3, +[]() { nextController(); });
+        5, +[]() { nextController(); });
 }
 
 void loop()
 {
+    frameCounter++;
     JoyState joyState;
     joyState.x = analogRead(JOY_X);
     joyState.y = analogRead(JOY_Y);
 
     FrameContext frame(matrix, joyState, HIGH);
+    frame.numFrame = frameCounter;
 
     handleSelectButton(frame);
 
     FrameContext newFrame = controllers[currentController]->update(frame);
+    newFrame.numFrame = frameCounter;
     currentFrameContext = &newFrame;
     render(newFrame);
 }

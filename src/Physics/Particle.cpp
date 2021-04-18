@@ -1,9 +1,7 @@
 #include "Particle.h"
 
-Particle::Particle(double maxVelocity, double seekSpeed)
+Particle::Particle(double maxVelocity, double mass, double seekSpeed) : maxVelocity(maxVelocity), mass(mass), seekSpeed(seekSpeed)
 {
-    this->maxVelocity = maxVelocity;
-    this->seekSpeed = seekSpeed;
 }
 
 void Particle::update(const FrameContext &frame)
@@ -49,11 +47,34 @@ void Particle::seek(const Vector &location)
     Vector direction = Vector::subtract(location, this->location);
     direction.normalize();
     direction.mult(seekSpeed);
-    direction.mult(-1);
     this->applyForce(direction);
+}
+
+void Particle::gravitateTo(Particle &particle)
+{
+    Vector direction = Vector::subtract(particle.location, this->location);
+    double dist = direction.mag();
+    direction.normalize();
+    direction.mult(particle.mass / (dist * dist));
+    this->applyForce(direction);
+}
+
+void Particle::attract(Particle &particle)
+{
+    Vector direction = Vector::subtract(this->location, particle.location);
+    double dist = direction.mag();
+    direction.normalize();
+    direction.mult(this->mass / (dist * dist));
+    particle.applyForce(direction);
 }
 
 void Particle::applyForce(const Vector &force)
 {
     acceleration.add(force);
+}
+
+double Particle::distanceTo(const Vector &target)
+{
+    Vector dist = Vector::subtract(this->location, target);
+    return dist.mag();
 }

@@ -1,5 +1,5 @@
 #include "Vector.h"
-#include "math.h"
+#include <math.h>
 
 Vector::Vector()
 {
@@ -36,7 +36,8 @@ void Vector::div(double scalar)
 
 double Vector::mag()
 {
-    return sqrt((double)((x * x) + (y * y)));
+    double hypotenuse = sqrtf(((x * x) + (y * y)));
+    return fabs(hypotenuse);
 }
 
 void Vector::setMag(double mag)

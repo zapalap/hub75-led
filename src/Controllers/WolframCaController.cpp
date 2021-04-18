@@ -1,20 +1,21 @@
-#include "CellularAutomataController.h"
+#include "WolframCaController.h"
 
 const byte possibleNeighbors[8][3] = {{1, 1, 1}, {1, 1, 0}, {1, 0, 1}, {1, 0, 0}, {0, 1, 1}, {0, 1, 0}, {0, 0, 1}, {0, 0, 0}};
+const byte possibleRules[18] = {30, 54, 60, 62, 90, 94, 102, 110, 122, 126, 150, 158, 182, 188, 190, 220, 222, 250};
 
-CellularAutomataController::CellularAutomataController()
+WolframCaController::WolframCaController()
 {
-    rule = 89;
+    rule = possibleRules[random(0, 18)];
     resetCurrentGen();
 };
 
-void CellularAutomataController::enter(const FrameContext &frame)
+void WolframCaController::enter(const FrameContext &frame)
 {
-    rule = random(89, 255);
+    rule = possibleRules[random(0, 18)];
     resetCurrentGen();
 }
 
-FrameContext CellularAutomataController::update(const FrameContext &frame)
+FrameContext WolframCaController::update(const FrameContext &frame)
 {
     frameNumber++;
 
@@ -33,7 +34,7 @@ FrameContext CellularAutomataController::update(const FrameContext &frame)
     return updatedCtx;
 };
 
-void CellularAutomataController::createNextGeneration()
+void WolframCaController::createNextGeneration()
 {
     for (int i = 1; i < MatrixBuffer::BOUND_X - 1; i++)
     {
@@ -46,7 +47,7 @@ void CellularAutomataController::createNextGeneration()
     }
 };
 
-void CellularAutomataController::updateMatrix(ptrMatrixBuffer matrix)
+void WolframCaController::updateMatrix(ptrMatrixBuffer matrix)
 {
     for (byte i = 0; i < MatrixBuffer::BOUND_X; i++)
     {
@@ -63,30 +64,30 @@ void CellularAutomataController::updateMatrix(ptrMatrixBuffer matrix)
     }
 };
 
-void CellularAutomataController::handleJoy(JoyState joyState)
+void WolframCaController::handleJoy(JoyState joyState)
 {
-    if (joyState.x > 2100)
+    if (joyState.x > 2200)
     {
         rule--;
     }
 
-    if (joyState.x < 1600)
+    if (joyState.x < 1500)
     {
         rule++;
     }
 
-    if (joyState.y > 2100)
+    if (joyState.y > 2200)
     {
         rule -= 10;
     }
 
-    if (joyState.y < 1600)
+    if (joyState.y < 1500)
     {
         rule += 10;
     }
 }
 
-byte CellularAutomataController::applyRule(byte neighbors[3])
+byte WolframCaController::applyRule(byte neighbors[3])
 {
     byte ruleArray[8];
     byte x = 7;
@@ -108,7 +109,7 @@ byte CellularAutomataController::applyRule(byte neighbors[3])
     return 0;
 };
 
-void CellularAutomataController::resetCurrentGen()
+void WolframCaController::resetCurrentGen()
 {
     for (byte i = 0; i < MatrixBuffer::BOUND_X; i++)
     {

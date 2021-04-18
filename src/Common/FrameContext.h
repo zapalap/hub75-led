@@ -13,6 +13,7 @@ class FrameContext
 {
 public:
     FrameContext(ptrMatrixBuffer matrixPtr, JoyState joy, byte selectButton);
+    long numFrame;
     ptrMatrixBuffer matrix;
     JoyState joyState;
     byte selectButtonState;

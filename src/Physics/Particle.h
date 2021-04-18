@@ -4,12 +4,12 @@
 #include "Vector.h"
 #include "..\Common\FrameContext.h"
 
-
 class Particle
 {
 public:
-    Particle(double maxVelocity, double seekSpeed);
+    Particle(double maxVelocity, double mass, double seekSpeed);
     double maxVelocity;
+    double mass;
     double seekSpeed;
     Vector location;
     Vector velocity;
@@ -18,6 +18,9 @@ public:
     void draw(const FrameContext &frameContext);
     void applyForce(const Vector &force);
     void seek(const Vector &location);
+    void gravitateTo(Particle &particle);
+    void attract(Particle &particle);
+    double distanceTo(const Vector &target);
 };
 
 #endif

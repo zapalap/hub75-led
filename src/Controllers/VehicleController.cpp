@@ -14,7 +14,7 @@ const byte VehicleController::redSunSprite[5][5] = {
     {0, 1, 1, 0, 0},
     {0, 0, 0, 0, 0}};
 
-VehicleController::VehicleController() : dot(0.3, 0.02)
+VehicleController::VehicleController() : dot(0.3, 0, 0.02)
 {
     dot.location.x = 15;
     dot.location.x = 6;

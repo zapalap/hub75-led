@@ -1,4 +1,5 @@
 #include "GameOfLifeController.h"
+#include "../Common/ColorHelper.h"
 
 #define BOUND_X 64
 #define BOUND_Y 32
@@ -184,7 +185,7 @@ byte GameOfLifeController::resolveRule(byte currentStatus, byte aliveNeighbors)
 
 void GameOfLifeController::handleJoy(JoyState joyState)
 {
-    if (joyState.x > 2100 || joyState.x < 1600 || joyState.y > 2100 || joyState.y < 1600)
+    if (joyState.x > 2200 || joyState.x < 1500 || joyState.y > 2100 || joyState.y < 1600)
     {
         initialize();
     }
