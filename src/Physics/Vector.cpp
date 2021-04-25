@@ -63,3 +63,15 @@ void Vector::limit(double max)
         setMag(max);
     }
 }
+
+void Vector::setAngle(double angle)
+{
+    double mag = this->mag();
+    this->x = cos(angle) * mag;
+    this->y = sin(angle) * mag;
+}
+
+double Vector::getAngle()
+{
+    return atan2(this->y, this->x);
+}

@@ -27,7 +27,7 @@ GameOfLifeController golController(3, 12345);
 Ticker selectDebounceTicker;
 Ticker demoReelTicker;
 
-FrameContext *currentFrameContext;
+FrameContext *currentFrame;
 
 matrixBuffer buffer;
 ptrMatrixBuffer matrix = buffer;
@@ -73,7 +73,7 @@ void loop()
 
     FrameContext newFrame = controllers[currentController]->update(frame);
     newFrame.numFrame = frameCounter;
-    currentFrameContext = &newFrame;
+    currentFrame = &newFrame;
     render(newFrame);
 }
 
@@ -92,7 +92,7 @@ void nextController()
 
     currentController = selected;
 
-    controllers[selected]->enter(*currentFrameContext);
+    controllers[selected]->enter(*currentFrame);
 }
 
 void handleSelectButton(const FrameContext &frame)

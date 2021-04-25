@@ -13,31 +13,31 @@ void Particle::update(const FrameContext &frame)
 
     if (location.x > 63)
     {
-        location.x = 0;
+        location.x = 63;
     };
 
     if (location.x < 0)
     {
-        location.x = 63;
+        location.x = 0;
     };
 
     if (location.y > 31)
     {
-        location.y = 0;
+        location.y = 31;
     };
 
     if (location.y < 0)
     {
-        location.y = 31;
+        location.y = 0;
     };
 }
 
 void Particle::draw(const FrameContext &frame)
 {
-    if ((location.x < 63 && location.x > 1) && (location.y < 31 && location.y > 1))
+    if ((location.x < 63 && location.x > 0) && (location.y < 31 && location.y > 0))
     {
-        int ry = round(location.y);
-        int rx = round(location.x);
+        int ry = (int)location.y;
+        int rx = (int)location.x;
         frame.matrix[ry][rx] = 1;
     }
 }
@@ -52,6 +52,12 @@ void Particle::seek(const Vector &location)
 
 void Particle::gravitateTo(Particle &particle)
 {
+    // Vector grav(0, 0);
+    // double distance = this->distanceTo(particle.location);
+
+    // grav.setMag(particle.mass / (distance * distance));
+    // grav.setAngle(this->angleTo(particle));
+    // this->applyForce(grav);
     Vector direction = Vector::subtract(particle.location, this->location);
     double dist = direction.mag();
     direction.normalize();
@@ -77,4 +83,9 @@ double Particle::distanceTo(const Vector &target)
 {
     Vector dist = Vector::subtract(this->location, target);
     return dist.mag();
+}
+
+double Particle::angleTo(Particle &particle)
+{
+    return atan2f(particle.location.y - this->location.y, particle.location.x - this->location.x);
 }

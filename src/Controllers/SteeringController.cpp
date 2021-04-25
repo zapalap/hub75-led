@@ -1,6 +1,6 @@
 #include "SteeringController.h"
 
-SteeringController::SteeringController() : target(0.5, 10, 0.5)
+SteeringController::SteeringController() : target(0.5, 5, 0.5)
 {
     target.location.x = 32;
     target.location.y = 16;
@@ -25,7 +25,7 @@ void SteeringController::enter(const FrameContext &frame)
             bool shouldBeSeeker = frame.matrix[y][x] > 0;
             if (shouldBeSeeker)
             {
-                Particle *seeker = new Particle(0.5, 0.5, 0.02);
+                Particle *seeker = new Particle(random(10, 25) / 10, 0.5, 0.02);
                 seeker->location.x = (double)x;
                 seeker->location.y = (double)y;
                 seekers.push_back(seeker);
@@ -37,12 +37,6 @@ void SteeringController::enter(const FrameContext &frame)
 FrameContext SteeringController::update(const FrameContext &frame)
 {
     frameNumber++;
-
-    // if (frameNumber % 20 == 0)
-    // {
-    //     target.location.x = random(0, 63);
-    //     target.location.y = random(0, 31);
-    // }
 
     clearMatrix(frame);
 

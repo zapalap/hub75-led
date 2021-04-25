@@ -21,6 +21,7 @@ public:
     void gravitateTo(Particle &particle);
     void attract(Particle &particle);
     double distanceTo(const Vector &target);
+    double angleTo(Particle &particle);
 };
 
 #endif

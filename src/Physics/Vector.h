@@ -16,6 +16,8 @@ public:
     void setMag(double mag);
     void normalize();
     void limit(double max);
+    void setAngle(double angle);
+    double getAngle();
 };
 
 #endif

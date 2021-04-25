@@ -185,7 +185,7 @@ byte GameOfLifeController::resolveRule(byte currentStatus, byte aliveNeighbors)
 
 void GameOfLifeController::handleJoy(JoyState joyState)
 {
-    if (joyState.x > 2200 || joyState.x < 1500 || joyState.y > 2100 || joyState.y < 1600)
+    if (joyState.x > 2400 || joyState.x < 1300 || joyState.y > 2400 || joyState.y < 1300)
     {
         initialize();
     }
