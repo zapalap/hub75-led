@@ -2,7 +2,7 @@
 #define PARTICLE_H
 
 #include "Vector.h"
-#include "..\Common\FrameContext.h"
+#include "../Common/FrameContext.h"
 
 class Particle
 {

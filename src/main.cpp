@@ -1,17 +1,17 @@
 #include "Arduino.h"
 #include "Ticker.h"
 
-#include "Common\MatrixBuffer.h"
-#include "Common\FrameContext.h"
+#include "Common/MatrixBuffer.h"
+#include "Common/FrameContext.h"
 
-#include "Controllers\Controller.h"
-#include "Controllers\GameOfLifeController.h"
-#include "Controllers\WolframCaController.h"
-#include "Controllers\SteeringController.h"
-#include "Controllers\SeekerController.h"
+#include "Controllers/Controller.h"
+#include "Controllers/GameOfLifeController.h"
+#include "Controllers/WolframCaController.h"
+#include "Controllers/SteeringController.h"
+#include "Controllers/SeekerController.h"
 
-#include "Views\View.h"
-#include "Views\HUB75DMAView.h"
+#include "Views/View.h"
+#include "Views/HUB75DMAView.h"
 
 #define JOY_X 39
 #define JOY_Y 36

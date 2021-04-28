@@ -1,7 +1,7 @@
 #ifndef MATRIX_BUFFER_H
 #define MATRIX_BUFFER_H
 
-#include <arduino.h>
+#include <Arduino.h>
 
 namespace MatrixBuffer
 {

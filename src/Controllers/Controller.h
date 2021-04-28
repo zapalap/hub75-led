@@ -1,8 +1,8 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "..\Common\FrameContext.h"
-#include "..\Common\MatrixBuffer.h"
+#include "../Common/FrameContext.h"
+#include "../Common/MatrixBuffer.h"
 
 class Controller
 {

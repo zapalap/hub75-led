@@ -3,8 +3,8 @@
 #define __SEEKER_CONTROLLER_H__
 
 #include "Controller.h"
-#include "..\Physics\Particle.h"
-#include "..\Physics\Vector.h"
+#include "../Physics/Particle.h"
+#include "../Physics/Vector.h"
 
 struct SeekTarget
 {

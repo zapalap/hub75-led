@@ -1,7 +1,7 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include "..\Common\FrameContext.h"
+#include "../Common/FrameContext.h"
 
 class View
 {

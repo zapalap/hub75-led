@@ -2,7 +2,7 @@
 #define __STEERINGCONTROLLER_H__
 
 #include "Controller.h"
-#include "..\Physics\Particle.h"
+#include "../Physics/Particle.h"
 
 class SteeringController : public Controller
 {

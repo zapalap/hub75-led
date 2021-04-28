@@ -1,7 +1,7 @@
 #ifndef FRAME_CONTEXT_H
 #define FRAME_CONTEXT_H
 
-#include "..\Common\MatrixBuffer.h"
+#include "../Common/MatrixBuffer.h"
 
 struct JoyState
 {
