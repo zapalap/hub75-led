@@ -3,6 +3,8 @@
 
 #include "Common/MatrixBuffer.h"
 #include "Common/FrameContext.h"
+#include "Common/WiFiConnection.h"
+#include <HTTPClient.h>
 
 #include "Controllers/Controller.h"
 #include "Controllers/GameOfLifeController.h"
@@ -13,11 +15,20 @@
 #include "Views/View.h"
 #include "Views/HUB75DMAView.h"
 
+#include <ArduinoJson.h>
+
+
 #define JOY_X 39
 #define JOY_Y 36
 
 #define SELECT_BUTTON 32
 
+#define SSID "ISTS-2.4GHz-117C54"
+#define WIFI_PASSWORD "***"
+#define WIFI_TIMEOUT_SECONDS 20
+#define API_KEY "***"
+
+WiFiConnection wifiConnection;
 HUB75DMAView view;
 
 WolframCaController caController;
@@ -52,9 +63,19 @@ bool ensureSelectPushed();
 void setup()
 {
     Serial.begin(115200);
+
+    ConnectionOptions connectionOptions;
+    connectionOptions.ssid = SSID;
+    connectionOptions.password = WIFI_PASSWORD;
+    connectionOptions.timeoutSeconds = WIFI_TIMEOUT_SECONDS;
+    wifiConnection.Connect(connectionOptions);
+    
+
     pinMode(JOY_X, INPUT);
     pinMode(JOY_Y, INPUT);
     pinMode(SELECT_BUTTON, INPUT_PULLUP);
+
+
     demoReelTicker.attach(
         5, +[]() { nextController(); });
 }

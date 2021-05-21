@@ -25,7 +25,6 @@ FrameContext WolframCaController::update(const FrameContext &frame)
     }
 
     handleJoy(frame.joyState);
-
     createNextGeneration();
     updateMatrix(frame.matrix);
 
