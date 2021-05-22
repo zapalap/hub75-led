@@ -16,17 +16,12 @@
 #include "Views/HUB75DMAView.h"
 
 #include <ArduinoJson.h>
-
+#include "EnvironmentConfig.h"
 
 #define JOY_X 39
 #define JOY_Y 36
 
 #define SELECT_BUTTON 32
-
-#define SSID "ISTS-2.4GHz-117C54"
-#define WIFI_PASSWORD "***"
-#define WIFI_TIMEOUT_SECONDS 20
-#define API_KEY "***"
 
 WiFiConnection wifiConnection;
 HUB75DMAView view;
@@ -65,11 +60,15 @@ void setup()
     Serial.begin(115200);
 
     ConnectionOptions connectionOptions;
-    connectionOptions.ssid = SSID;
-    connectionOptions.password = WIFI_PASSWORD;
-    connectionOptions.timeoutSeconds = WIFI_TIMEOUT_SECONDS;
+    connectionOptions.ssid = EnvironmentConfig::Ssid;
+    connectionOptions.password = EnvironmentConfig::WifiPassword;
+    connectionOptions.timeoutSeconds = EnvironmentConfig::WifiTimeoutSeconds;
     wifiConnection.Connect(connectionOptions);
     
+    HTTPClient http;
+    http.begin("http://api.openweathermap.org/data/2.5/weather?q=Krakow&appid=" + String(EnvironmentConfig::WeatherApiKey));
+    http.GET();
+    Serial.println(http.getString());
 
     pinMode(JOY_X, INPUT);
     pinMode(JOY_Y, INPUT);
