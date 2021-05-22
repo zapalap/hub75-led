@@ -1,12 +1,12 @@
 #include "Modes/Mode.h"
-#include "Modes/PresentationMode/PresentationMode.h"
+#include "Modes/WeatherStationMode/WeatherStationMode.h"
 
 #define MAX_MODES 1
 
-PresentationMode presentationMode;
+WeatherStationMode weatherStationMode;
 
 Mode *modes[MAX_MODES] = {
-    &presentationMode
+    &weatherStationMode
 };
 
 int currentMode = 0;
