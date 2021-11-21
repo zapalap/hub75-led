@@ -22,6 +22,10 @@ public:
     void attract(Particle &particle);
     double distanceTo(const Vector &target);
     double angleTo(Particle &particle);
+
+private:
+    boolean isWithinBounds(double x, double y);
+    double limit(double value, int min, int max);
 };
 
 #endif

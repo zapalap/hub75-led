@@ -9,37 +9,24 @@ void Particle::update(const FrameContext &frame)
     velocity.add(acceleration);
     location.add(velocity);
     velocity.limit(maxVelocity);
+    location.x = limit(location.x, -1, 75);
+    location.y = limit(location.y, -1, 53);
     acceleration.mult(0);
-
-    if (location.x > 63)
-    {
-        location.x = 63;
-    };
-
-    if (location.x < 0)
-    {
-        location.x = 0;
-    };
-
-    if (location.y > 31)
-    {
-        location.y = 31;
-    };
-
-    if (location.y < 0)
-    {
-        location.y = 0;
-    };
 }
 
 void Particle::draw(const FrameContext &frame)
 {
-    if ((location.x < 63 && location.x > 0) && (location.y < 31 && location.y > 0))
-    {
-        int ry = (int)location.y;
-        int rx = (int)location.x;
-        frame.matrix[ry][rx] = 1;
-    }
+    if (!isWithinBounds(location.x, location.y))
+        return;
+
+    int ry = (int)location.y;
+    int rx = (int)location.x;
+    frame.matrix[ry][rx] = 1;
+}
+
+boolean Particle::isWithinBounds(double x, double y)
+{
+    return (y > 0 && y <= 31) && (x > 0 && x <= 63);
 }
 
 void Particle::seek(const Vector &location)
@@ -52,12 +39,6 @@ void Particle::seek(const Vector &location)
 
 void Particle::gravitateTo(Particle &particle)
 {
-    // Vector grav(0, 0);
-    // double distance = this->distanceTo(particle.location);
-
-    // grav.setMag(particle.mass / (distance * distance));
-    // grav.setAngle(this->angleTo(particle));
-    // this->applyForce(grav);
     Vector direction = Vector::subtract(particle.location, this->location);
     double dist = direction.mag();
     direction.normalize();
@@ -88,4 +69,19 @@ double Particle::distanceTo(const Vector &target)
 double Particle::angleTo(Particle &particle)
 {
     return atan2f(particle.location.y - this->location.y, particle.location.x - this->location.x);
+}
+
+double Particle::limit(double value, int min, int max)
+{
+    if (value > max)
+    {
+        value = max;
+        return value;
+    }
+    if (value < min)
+    {
+        value = min;
+        return value;
+    }
+    return value;
 }

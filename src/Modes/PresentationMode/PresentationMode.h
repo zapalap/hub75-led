@@ -27,17 +27,10 @@
 
 #define SELECT_BUTTON 32
 
-#define MAX_CONTROLLERS 4
-
 class PresentationMode : public Mode
 {
 public:
-    PresentationMode() : golController(3, 12345),
-                         controllers{
-                             &caController,
-                             &seekerController,
-                             &golController,
-                             &steeringController} {};
+    PresentationMode();
     void init();
     void update();
     void nextController();
@@ -46,18 +39,15 @@ public:
 private:
     WiFiConnection wifiConnection;
     HUB75DMAView view;
-    WolframCaController caController;
-    SteeringController steeringController;
-    SeekerController seekerController;
-    GameOfLifeController golController;
     Ticker selectDebounceTicker;
     Ticker demoReelTicker;
     FrameContext *currentFrame;
     matrixBuffer buffer;
     ptrMatrixBuffer matrix = buffer;
-    Controller *controllers[MAX_CONTROLLERS];
+    std::vector<Controller*> controllers;
     bool selectCheckPendning;
     bool selectPushPending;
+    bool alreadyInitialized;
     int currentController = 0;
     long frameCounter = 0;
     void render(const FrameContext &frame);

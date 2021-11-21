@@ -1,29 +1,32 @@
 #include "PresentationMode.h"
-#include "EnvironmentConfig.h"
 
 void nextCtrl(PresentationMode *mode);
 void ensurePushed(PresentationMode *mode);
 
+PresentationMode::PresentationMode()
+{
+}
+
 void PresentationMode::init()
 {
-    Serial.begin(115200);
-
-    ConnectionOptions connectionOptions;
-    connectionOptions.ssid = EnvironmentConfig::Ssid;
-    connectionOptions.password = EnvironmentConfig::WifiPassword;
-    connectionOptions.timeoutSeconds = EnvironmentConfig::WifiTimeoutSeconds;
-    wifiConnection.Connect(connectionOptions);
-
-    HTTPClient http;
-    http.begin("http://api.openweathermap.org/data/2.5/weather?q=Krakow&appid=" + String(EnvironmentConfig::WeatherApiKey));
-    http.GET();
-    Serial.println(http.getString());
-
+    if (alreadyInitialized)
+    {
+        return;
+    }
+    alreadyInitialized = true;
+    controllers.push_back(new SeekerController());
+    controllers.push_back(new SteeringController());
+    controllers.push_back(new GameOfLifeController());
     pinMode(JOY_X, INPUT);
     pinMode(JOY_Y, INPUT);
     pinMode(SELECT_BUTTON, INPUT_PULLUP);
-
-    demoReelTicker.attach(5, nextCtrl, this);
+    demoReelTicker.attach(10, nextCtrl, this);
+    JoyState joyState;
+    joyState.x = analogRead(JOY_X);
+    joyState.y = analogRead(JOY_Y);
+    FrameContext frame(matrix, joyState, HIGH);
+    currentFrame = &frame;
+    controllers[currentController]->enter(*currentFrame);
 }
 
 void PresentationMode::update()
@@ -54,7 +57,7 @@ void PresentationMode::nextController()
     long selected = 0;
     do
     {
-        selected = random(100) % MAX_CONTROLLERS;
+        selected = random(100) % controllers.size();
     } while (selected == currentController);
 
     currentController = selected;
@@ -78,7 +81,7 @@ void PresentationMode::handleSelectButton(const FrameContext &frame)
     {
         currentController++;
 
-        if (currentController > MAX_CONTROLLERS - 1)
+        if (currentController > controllers.size())
         {
             currentController = 0;
         }
@@ -103,13 +106,13 @@ bool PresentationMode::ensureSelectPushed()
 }
 
 // The below functions are a workaround to allow Ticker methods to work with
-// class methods. Ticker.h attach and once functions expect a callback_t which is an
-// alias defined as typedef void (*callback_t)(void) (that is a function pointer
+// class methods. Ticker.h 'attach' and 'once' functions expect a callback_t which is an
+// alias defined as typedef void (*callback_t)(void) (that is: a function pointer
 // that takes void and returns void). This is not compatible with a function pointer
 // to method signature. Using a lambda is also out of question as lambdas can decay
 // to function pointers only if they do not capture any variables. In this case
-// a lambda would have to capture this pointer in order to invoke this->nextController()
-// or this->ensureSelectPushed(). Which would immediately make it incomaptible with 
+// a lambda would have to capture 'this' pointer in order to invoke this->nextController()
+// or this->ensureSelectPushed(). Which would immediately make it incomaptible with
 // callback_t as it's currently defined. The only solution is to create a free function
 // that takes the mode instace and invokes the required public function. As this can
 // be passed as a function pointer.

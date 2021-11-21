@@ -25,8 +25,7 @@ private:
     long frameNumber;
     void clearMatrix(const FrameContext &frame);
     double limit(double value, int min, int max);
-
-    static const int endState[32][64];
+    static const int sprites[256];
 };
 
 #endif // __STEERINGCONTROLLER_H__

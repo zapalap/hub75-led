@@ -4,11 +4,8 @@
 #define BOUND_X 64
 #define BOUND_Y 32
 
-GameOfLifeController::GameOfLifeController(int B, int S)
+GameOfLifeController::GameOfLifeController()
 {
-    rule.B = B;
-    rule.S = S;
-
     rules.push_back({3, 12345});
     rules.push_back({357, 1358});
     rules.push_back({345, 4567});
@@ -21,13 +18,19 @@ GameOfLifeController::GameOfLifeController(int B, int S)
     rules.push_back({245, 368});
     rules.push_back({1357, 1357});
 
+    ruleSwitchThreshold = 20;
     generationNumber = 0;
     initialize();
+    pickRandomRule();
 }
 
 void GameOfLifeController::enter(const FrameContext &frame)
 {
     initializeFromMatrix(frame);
+    pickRandomRule();
+}
+
+void GameOfLifeController::pickRandomRule() {
     randomSeed(ESP.getCycleCount());
     rule = rules[random(0, rules.size() - 1)];
 }
@@ -41,6 +44,12 @@ FrameContext GameOfLifeController::update(const FrameContext &frame)
 
     if (generationNumber > 9999)
     {
+        generationNumber = 0;
+    }
+
+    if (generationNumber >= ruleSwitchThreshold)
+    {
+        pickRandomRule();
         generationNumber = 0;
     }
 

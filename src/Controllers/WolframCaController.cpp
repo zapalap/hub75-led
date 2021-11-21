@@ -1,7 +1,8 @@
 #include "WolframCaController.h"
 
 const byte possibleNeighbors[8][3] = {{1, 1, 1}, {1, 1, 0}, {1, 0, 1}, {1, 0, 0}, {0, 1, 1}, {0, 1, 0}, {0, 0, 1}, {0, 0, 0}};
-const byte possibleRules[18] = {30, 54, 60, 62, 90, 94, 102, 110, 122, 126, 150, 158, 182, 188, 190, 220, 222, 250};
+// const byte possibleRules[18] = {30, 54, 60, 62, 90, 94, 102, 110, 122, 126, 150, 158, 182, 188, 190, 220, 222, 250};
+const byte possibleRules[5] = {30, 54, 60, 62, 90};
 
 WolframCaController::WolframCaController()
 {
